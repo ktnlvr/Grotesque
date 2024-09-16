@@ -3,7 +3,7 @@
 #define OLC_PGE_APPLICATION
 #include "olcPixelGameEngine.h"
 
-#include "./unit.h"
+#include "./unit.hpp"
 
 using namespace olc;
 
