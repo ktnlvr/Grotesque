@@ -8,7 +8,7 @@ endif()
 
 project ("Grotesque")
 
-add_executable (Grotesque "src/main.cpp")
+add_executable (Grotesque "src/main.cpp" "src/engine.h" "src/unit.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Grotesque PROPERTY CXX_STANDARD 20)
