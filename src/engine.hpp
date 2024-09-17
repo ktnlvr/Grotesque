@@ -93,6 +93,10 @@ struct Engine : olc::PixelGameEngine {
     DrawLine(project(a), project(b), color, pattern);
   }
 
+  void draw_rect(vi2d pos, vi2d extent, Pixel c) {
+    DrawRect(project(pos), extent, c);
+  }
+
   bool draw(vi2d pos, Pixel color) { return Draw(project(pos), color); }
 
   void draw_unit_path_to(Unit &unit, vf2d target_pos, Pixel color = GREY,
@@ -102,6 +106,12 @@ struct Engine : olc::PixelGameEngine {
     pattern = wrap_pattern(pattern, 4.);
     draw_circle(target_pos, unit.kind->radius * 1.2, color, pattern);
     draw_line(target_pos, pos, color, pattern);
+  }
+
+  bool is_inside_camera_aabb(vi2d position) {
+    position = project(position);
+    vi2d screen_size = GetScreenSize();
+    return position.x <= screen_size.x && position.y <= screen_size.y;
   }
 
   vi2d project(vi2d vec) {

@@ -2,27 +2,33 @@
 #include <memory>
 
 #include "./engine.hpp"
+#include "./flow.hpp"
 #include "./unit.hpp"
 
 using namespace grot;
 
 struct Game : Engine {
+  FlowMap flow;
+
   std::vector<Unit> units;
   int selected_unit = -1;
 
   void update(float dt) override {
+    flow.debug_draw(*this);
+    auto mouse_pos = get_mouse_world_pos();
+
     if (selected_unit >= units.size())
       selected_unit = -1;
 
     if (selected_unit != -1) {
       auto &unit = units[selected_unit];
-      draw_unit_path_to(unit, get_mouse_world_pos());
+      draw_unit_path_to(unit, mouse_pos);
     }
 
     auto nearest_idx = -1;
     auto nearest_distance = INFINITY;
 
-    auto p0 = GetMousePos();
+    auto p0 = mouse_pos;
     for (size_t i = 0; i < units.size(); i++) {
       auto &unit = units[i];
       draw_circle(unit.position, unit.kind->radius, unit.kind->color);
@@ -30,7 +36,7 @@ struct Game : Engine {
         draw_unit_path_to(unit, unit.desired_position.value(), DARK_GREY);
       }
 
-      auto p1 = unit.position - camera.position;
+      auto p1 = unit.position;
       auto d = (p1 - p0).mag2();
       if (d < nearest_distance) {
         nearest_distance = d;
