@@ -88,6 +88,8 @@ int main() {
     return unit;
   }());
 
+  demo.flow.calculate_flow(vi2d(4, 9));
+
   if (demo.Construct(256, 240, 4, 4))
     demo.Start();
   return 0;
